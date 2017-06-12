@@ -34,3 +34,4 @@
       -webkit-transform: scaleY(0.3)
       transform: scaleY(0.3)
  ```
+### lazyMan 是一个经典的js流程控制实现

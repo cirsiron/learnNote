@@ -15,7 +15,16 @@
 	    		<span>{{value.sname}}</span>
 	    		{{include 'child' value}}
 	    	{{/each}}
-    	</script>>
+		<!-- 逻辑判断 -->
+		{{each list value i}}
+	    		{{if value.id == 1}}
+
+	    		<option value={{value.id}}>{{value.name}}</option>
+	    		{{else if value.id == 2}}
+	    		<p>2{{value.name}}</p>
+	    		{{/if}}
+	    	{{/each}}
+    		</script>>
     	<!-- 嵌套的子模板 -->
     	<script id="child" type="text/html">
     		<p>{{score}}</p>

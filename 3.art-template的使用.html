@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<meta name="apple-mobile-web-app-status-bar-style" content=""/>
+	</head>
+	<body>
+		<div class="calss"></div>
+		<div class="name" id="content">11</div>
+		<!-- 注意4.xx版本修改了api each没有了 as-->
+		<script id="tmpl" type="text/html">
+
+	    	{{each scoreList value i}}
+	    		<span>{{value.sname}}</span>
+	    		{{include 'child' value}}
+	    	{{/each}}
+    	</script>>
+    	<!-- 嵌套的子模板 -->
+    	<script id="child" type="text/html">
+    		<p>{{score}}</p>
+    	</script>
+	</body>
+	<script src="./js/index.js" type="text/javascript" charset="utf-8"></script>
+	<script src="./js/template.js"></script>
+	<script type="text/javascript">
+
+	var list =
+		{
+        	"name" : "",
+            "age" : 24,
+            "scoreList" : [ 
+            	{
+                	"sname" : "java",
+                	"score" : 100
+            	}, 
+            	{
+                	"sname" : "c++",
+                	"score" : 101
+            	} 
+            ]
+        } 
+    
+	var html = template('tmpl', list);  
+    document.getElementById("content").innerHTML = html;  
+
+
+
+	</script>
+</html>

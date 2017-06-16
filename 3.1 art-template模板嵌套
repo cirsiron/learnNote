@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<meta name="apple-mobile-web-app-status-bar-style" content=""/>
+	</head>
+	<body>
+		<div class="calss"></div>
+		<div class="name" id="content">11</div>
+		<!-- 注意4.xx版本修改了api each没有了 as-->
+		<script id="tmpl" type="text/html">
+	    	    {{each DpmList as value}}  
+	    			<ul>  
+				        <li>  
+				            {{value.caption}}  
+				            {{if value.Child!=null}}  
+				                {{each value.Child as data}}  
+				                    {{include 'list1' data}}  
+				                {{/each}}  
+				            {{/if}}  
+				        </li>  
+				    </ul>  
+    			{{/each}} 
+    	</script>
+    	<!-- 嵌套的子模板 -->
+    	<script id="child" type="text/html">
+    		<p>{{score}}</p>
+    	</script>
+    	<script type="text/html" id="list1">  
+		    <ul>  
+		        <li>  
+		            {{caption}}  
+		            {{if Child!=null}}  
+		                {{each Child as data}}  
+		                    {{include 'list1' data}}  
+		                {{/each}}  
+		            {{/if}}  
+		        </li>  
+		    </ul>  
+		</script>  
+	</body>
+	<script src="./js/index.js" type="text/javascript" charset="utf-8"></script>
+	<script src="./js/template.js"></script>
+	<script type="text/javascript">
+	var data = {
+    "DpmList": [
+        {
+            "Id": 0,
+            "ParentId": null,
+            "ParentInfo": null,
+            "caption": "未分配部门",
+            "Child": null,
+            "UserCount": 10,
+            "ucount": 10,
+            "UserList": null
+        },
+        {
+            "Id": 363,
+            "ParentId": null,
+            "ParentInfo": null,
+            "caption": "财务部",
+            "Child": [
+                {
+                    "Id": 372,
+                    "ParentId": 363,
+                    "ParentInfo": null,
+                    "caption": "出纳",
+                    "Child": null,
+                    "UserCount": 2,
+                    "ucount": 2,
+                    "UserList": null
+                }
+            ],
+            "UserCount": 3,
+            "ucount": 1,
+            "UserList": null
+        },
+        {
+            "Id": 207,
+            "ParentId": null,
+            "ParentInfo": null,
+            "caption": "集团公司",
+            "Child": null,
+            "UserCount": 1,
+            "ucount": 1,
+            "UserList": null
+        },
+        {
+            "Id": 336,
+            "ParentId": null,
+            "ParentInfo": null,
+            "caption": "人事部",
+            "Child": null,
+            "UserCount": 0,
+            "ucount": 0,
+            "UserList": null
+        },
+        {
+            "Id": 364,
+            "ParentId": null,
+            "ParentInfo": null,
+            "caption": "软件部",
+            "Child": null,
+            "UserCount": 0,
+            "ucount": 0,
+            "UserList": null
+        },
+        {
+            "Id": 208,
+            "ParentId": null,
+            "ParentInfo": null,
+            "caption": "销售部",
+            "Child": [
+                {
+                    "Id": 257,
+                    "ParentId": 208,
+                    "ParentInfo": null,
+                    "caption": "hh",
+                    "Child": null,
+                    "UserCount": 0,
+                    "ucount": 0,
+                    "UserList": null
+                },
+                {
+                    "Id": 256,
+                    "ParentId": 208,
+                    "ParentInfo": null,
+                    "caption": "sd",
+                    "Child": null,
+                    "UserCount": 0,
+                    "ucount": 0,
+                    "UserList": null
+                },
+                {
+                    "Id": 216,
+                    "ParentId": 208,
+                    "ParentInfo": null,
+                    "caption": "西南地区",
+                    "Child": null,
+                    "UserCount": 0,
+                    "ucount": 0,
+                    "UserList": null
+                }
+            ],
+            "UserCount": 0,
+            "ucount": 0,
+            "UserList": null
+        },
+        {
+            "Id": 209,
+            "ParentId": null,
+            "ParentInfo": null,
+            "caption": "行政部",
+            "Child": [
+                {
+                    "Id": 213,
+                    "ParentId": 209,
+                    "ParentInfo": null,
+                    "caption": "人力资源",
+                    "Child": [
+                        {
+                            "Id": 215,
+                            "ParentId": 213,
+                            "ParentInfo": null,
+                            "caption": "科室二",
+                            "Child": null,
+                            "UserCount": 0,
+                            "ucount": 0,
+                            "UserList": null
+                        },
+                        {
+                            "Id": 214,
+                            "ParentId": 213,
+                            "ParentInfo": null,
+                            "caption": "科室一",
+                            "Child": null,
+                            "UserCount": 0,
+                            "ucount": 0,
+                            "UserList": null
+                        }
+                    ],
+                    "UserCount": 0,
+                    "ucount": 0,
+                    "UserList": null
+                },
+                {
+                    "Id": 210,
+                    "ParentId": 209,
+                    "ParentInfo": null,
+                    "caption": "社保",
+                    "Child": [
+                        {
+                            "Id": 211,
+                            "ParentId": 210,
+                            "ParentInfo": null,
+                            "caption": "科室一",
+                            "Child": [
+                                {
+                                    "Id": 281,
+                                    "ParentId": 211,
+                                    "ParentInfo": null,
+                                    "caption": "部门1",
+                                    "Child": null,
+                                    "UserCount": 0,
+                                    "ucount": 0,
+                                    "UserList": null
+                                }
+                            ],
+                            "UserCount": 0,
+                            "ucount": 0,
+                            "UserList": null
+                        }
+                    ],
+                    "UserCount": 0,
+                    "ucount": 0,
+                    "UserList": null
+                }
+            ],
+            "UserCount": 0,
+            "ucount": 0,
+            "UserList": null
+        }
+    ]
+}
+		 var html=template("tmpl",data)  
+         document.getElementById("content").innerHTML=html;
+
+
+	// var data = {
+	// 	"list" : [
+	// 		{
+	// 			id: 1,
+	// 			name: "test1"
+	// 		},
+	// 		{
+	// 			id: 2,
+	// 			name: "test2"
+	// 		}
+	// 	]	
+	// }
+ 
+ //        var data = {  
+ //            n: 123  
+ //        };  
+ //        // var html = template("test", data);  
+ //        // var html = template("/aa.art", data);
+ //        // document.getElementById("content").innerHTML = html;  
+	// var html = template('tmpl', data);  
+ //    document.getElementById("content").innerHTML = html;  
+
+
+
+	</script>
+</html>

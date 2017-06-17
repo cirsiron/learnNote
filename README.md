@@ -35,3 +35,5 @@
       transform: scaleY(0.3)
  ```
 ### 3. lazyMan 是一个经典的js流程控制实现
+### 4. require.js 加载时有一个默认的基础路径，是以入口模块的(main.js)位置为基准。
+    - easjs 的module.export 和 export 都是同时向外暴露数据，相当于var export = module.export; 所以直接修改export = xxx 是不能将数据导出的。只能使用export.aa = xxx ; 或者 module.export = xxx; 就是说一旦给export直接赋值就会切断了与module.export的关联

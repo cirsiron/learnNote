@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<script>
+	//1、一般情况下，url、固定常用的值会可以存进配置中。
+	//2、错误的抛出，抛出错误就像给自己留下为什么会失败的便签。
+	function getDiv(ele) {
+		if(ele && ele.getElementsByTagName) {
+			return ele.getElementsByTagName("div");
+		}else {
+			throw new Error("getDiv() : arguments must be a DOM element");
+		}
+	}
+	//3、什么时候需要抛出错误
+	//
+	</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>对数据进行类型检测</title>
+</head>
+<body>
+	<script>
+		// 对数据进行类型检测
+		// 1. 基本类型利用 typeof，另外还可以使用与函数，注意在ie8中检测dom节点函数的话，会返回object 
+		var name = ""; 
+		if(typeof name === "string") {
+
+		}
+		//typeof 的特殊在于即使用于一个未声明的变量也不会报错
+		//未定义的变量和值为undefined的变量通过typeof 返回 undefined
+		
+		
+		//2. 检测引用类型使用instanceof 运算符，同时也可以用来检测自定义类型，比如Person
+		if(value instanceof Date) {
+
+		}
+		if(value instanceof RegExp) {
+			
+		}
+		//但是用来判断对象并不是最佳
+		//因为原型链的存在
+		value instanceof Object === true 对于引用类型来说都会成立
+
+
+		//4. 最通用的方法
+		function isArr(value) {
+			return Object.prototype.toString.call(value) === "[object Array]"; 
+		}
+
+		//5. 对象属性存在的检测
+		if("name" in obj) {
+
+		}
+
+		//6. hasOwnProperty可以检测实例对象中是否存在某个属性
+		//所有继承自Object的js对象都有这个方法。
+		//** 注意的是： 在ie8以及以前 dom对象并非继承自Object，因此也不能使用这个方法，
+		//如果不确定是否存在
+		if("hasOwnProperty" in object && object.hasOwnProperty("xxx")) {
+
+		}
+		//不管什么时候检测属性的存在性，请使用in运算符或者hasOwnProperty
+		
+	</script>
+</body>
+</html>	

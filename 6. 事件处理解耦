@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>事件处理解耦</title>
+</head>
+<body>
+	<script>
+	// 拆分应用逻辑
+	// 1. 将应用逻辑从所有事件处理程序中抽离出来
+	var app = {
+		//这里分离出来还可以在其他地方进行调用
+		handlePopup: function(event){
+			event.preventDefault();
+			event.stopPropagation();
+			
+			this.popUp(event.clientX, event.clientY);
+			
+		},
+		//将具体逻辑抽离出来
+		//这里只需要接受事件对象的两个参数
+		popUp: function(x, y){
+			var pop_up = document.getElementById("popup");
+			pop_up.style.left = x + "px";
+			pop_up.style.top = y + "px";
+			pop_up.className += "reveal"
+		}
+	}  
+	//2. 不要无节制的分发事件对象（e）正确的是↑的那样
+	 // function(e){
+		// 	var pop_up = document.getElementById("popup");
+		// 	pop_up.style.left = e.x + "px";
+		// 	pop_up.style.top = e.y + "px";
+		// 	pop_up.className += "reveal"
+		// }
+	
+	addListener(ele, "click", function(e) {
+		app.handlePopup(e);
+	});
+	</script>
+</body>
+</html>

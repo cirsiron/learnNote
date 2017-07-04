@@ -1,0 +1,60 @@
+- 	1. 关于document.getElementById的封装
+```
+var getId = function(el) {
+	return document.getElementById(el)
+}
+//不能使用这样的
+var getId = document.getElementByid;
+因为这里有this的指向问题
+
+更简洁的方法
+var getId = document.getElementById.bind(document);
+直接使用：getId("id");
+```
+-   2. 关于 call apply bind 的使用和区别
+	+ call和apply的作用是完全一样的，区别只在于传入参数方式的差别
+```
+<!-- call和apply在组合式继承中的用法 -->
+var Fn1 = function() {
+	
+}
+var Fn2 = function() {
+	Fn1.apply(Fn2, arguments);
+}
+
+Fn2.prototype = new Fn1();
+
+Math.max.apply( null, [ 1, 2, 5, 3, 4 ] ) // 输出： 5
+``` 
+	+ bind的模拟
+
+```
+Function.prototype.bind = function(){
+	 var self = this, // 保存原函数
+	 context = [].shift.call( arguments ), // 需要绑定的 this 上下文
+	 args = [].slice.call( arguments ); // 剩余的参数转成数组
+	 return function(){ // 返回一个新的函数
+	 return self.apply( context, [].concat.call( args, [].slice.call( arguments ) ) );
+	 // 执行新的函数的时候，会把之前传入的 context 当作新函数体内的 this
+	 // 并且组合两次分别传入的参数，作为新函数的参数
+	 }
+};
+
+var obj = {
+ name: 'sven'
+};
+var func = function( a, b, c, d ){
+ alert ( this.name ); // 输出： sven
+ alert ( [ a, b, c, d ] ) // 输出： [ 1, 2, 3, 4 ]
+}.bind( obj, 1, 2 );
+func( 3, 4 );
+```
+-  3.我们可以把“任意”对象传入 Array.prototype.push。
+	但是要满足：
+ + 对象本身要可以存取属性；基本类型不满足
+ + 对象的 length 属性可读写，也就是说函数不满足
+```
+var a = {}
+Array.prototype.push(a, "11");
+console.log(a.length);// 1
+```

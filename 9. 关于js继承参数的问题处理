@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>关于js继承参数的问题处理</title>
+</head>
+<body>
+	<script>
+	function Parent(obj) {
+		// 这里需要注意，采用组合继承时，由于这里会执行两次，在new 时产生的实例时，
+		// 由于没有或者说传入不了参数，就是只能用new Parent()，这样的方式。会导致在执行obj.name时，由于没有传递obj，所以报错obj.name
+		// 解决方式有两个：
+		// （1）： 添加一个if判断
+		
+		if(obj) {
+			this.name = obj.name;
+		}
+		
+	}
+	// （2）： 使用寄生组合式继承方式。
+	// 添加一个中间桥梁式的空函数，来继承Parent
+	// 就不会导致 Parent被实例化两次。即没有了new Parent()这样的调用方式。
+	// 所以不会导致传入对象导致的错误。即找不到obj.name
+	function ext(obj) {
+		var F = new Function();
+		F.prototype = obj;
+		return new F();
+	}
+	
+	Parent.prototype.fn = function() {
+		console.log(this.name);
+	}
+
+	function Child(obj) {
+		Parent.call(this, obj);
+	}
+	// （1）组合式
+	// Child.prototype = new Parent();
+
+	// （2）寄生组合式
+	Child.prototype = ext(Parent.prototype);//直接将空的函数的原型链指向Parent
+
+	// 使用实例
+	new Child({name:"jack"}).fn();
+	</script>
+</body>
+</html>

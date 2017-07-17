@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>监听数组的变化</title>
+</head>
+<style>
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<body>
+    <p id="id">1111</p>
+    <script>
+        var Event = function() {
+            var arrMethods = ["push", "pop", "unshift", "shift", "splice", "sort", "reserve"];
+            var arr = [];
+            arrMethods.forEach(function(method) {
+                var orgin = Array.prototype[method];
+                arr[method] = function() {
+                    console.log(method);
+                    return orgin.apply(this, arguments)
+                }
+            });
+            return arr;
+        }
+        var lis = [1, 2, 3];
+        lis.__proto__ = Event();
+        lis.push(4);
+        lis.pop(4);
+        var o = {
+            "1": "1"
+        }
+        var obj = [{
+            "123": 123
+        }, {
+            "hello": "hi"
+        }];
+        var temp = Object.keys(obj).length;
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //1. 字符串操作
+        //1.1 去除字符串空格
+        function trim(str, type) {
+            switch (type) {
+                case 1: //去除全部空格
+                    return str.replace(/\s+/g, "");
+                case 2: //去除前后空格
+                    return str.replace(/(^\s*)|(\s*$)/g, "");
+                case 3: //去除前空格
+                    return str.replace(/(^\s*)/g, "");
+                case 4: //去除后空格
+                    return str.replace(/(\s*$)/g, "");
+            }
+        }
+        //1.2 字母的大小写转换
+        function changeCase(str, type) {
+            function toggleCase(str) { //大小写反转
+                var text = "";
+                str.split("").forEach(function(v, k) {
+                    if (/^[a-z]+/.test(v)) {
+                        text += v.toUpperCase();
+                    } else if (/^[A-Z]+/.test(v)) {
+                        text += v.toLowerCase();
+                    }
+                });
+                return text;
+            }
+
+            switch (type) {
+                case 1:
+                    return str.toUpperCase();
+                case 2:
+                    return str.toLowerCase();
+                case 3:
+                    return toggleCase(str);
+                case 4:
+                    return str.replace(/^(\w)(\w+)/, function(v1, v1) {
+                        return v1.toUpperCase() + v2.toLowerCase();
+                    });
+                case 5:
+                    return str.replace(/^(\w)(\w+)/, function(v1, v2) {
+                        return v1.toLowerCase() + v2.toUpperCase();
+                    })
+                default:
+                    return str;
+            }
+        }
+
+        // 1.3 复制字符串
+        function repeateStr(str, count) {
+            var reStr = ""
+            for (var i = 0; i < count; i++) {
+                reStr += str;
+            }
+            return reStr;
+        }
+        //1.4 替换字符串
+        function replaceStr(str, replacedStr, replaceStr, g) {
+            g = g || true;
+            if (g) {
+                var reg = new RegExp(replacedStr, g);
+            } else {
+                var reg = new RegExp(replacedStr);
+            }
+            str.replace(reg, replaceStr);
+        }
+    </script>
+</body>
+
+</html>

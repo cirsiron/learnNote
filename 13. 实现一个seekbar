@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="./node_modules/jquery/jquery.js"></script>
+    <title>Document</title>
+</head>
+<style>
+    .grade_warp {
+        width: 450;
+        float: left;
+        margin-left: 10px;
+    }
+    
+    .User_grade {
+        width: 100%;
+    }
+    
+    .User_ratings {
+        overflow: hidden;
+    }
+    
+    .User_ratings .ratings_title {
+        width: 815px;
+        height: 78px;
+        font-family: "微软雅黑", "宋体";
+        font-size: 24px;
+        color: #aaaaaa;
+    }
+    
+    .User_ratings .ratings_title01 {
+        width: 407px;
+        height: auto;
+        font-family: "微软雅黑", "宋体";
+        font-size: 14px;
+        color: #aaaaaa;
+    }
+    
+    .User_ratings .ratings_bars {
+        width: 407px;
+        height: 34px;
+        padding-top: 5px;
+    }
+    
+    .User_ratings .ratings_bars .title0 {
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        border: 1px solid #bfbebe;
+        line-height: 25px;
+        font-family: Georgia, "Times New Roman", Times, serif;
+        font-size: 14px;
+        float: left;
+        color: #a0a0a0;
+        margin-right: 10px;
+        background: #fff;
+    }
+    
+    .User_ratings .ratings_bars .bars_10 {
+        font-family: Georgia, "Times New Roman", Times, serif;
+        font-size: 18px;
+        line-height: 25px;
+        float: left;
+        color: #a0a0a0;
+    }
+    
+    .User_ratings .ratings_bars .scale {
+        width: 299px;
+        height: 13px;
+        float: left;
+        margin: 7px 10px auto 10px;
+        position: relative;
+        background: blue;
+    }
+    
+    .User_ratings .ratings_bars .scale div {
+        width: 0px;
+        position: absolute;
+        width: 0;
+        left: 0;
+        height: 13px;
+        bottom: 0;
+        background: #999;
+    }
+    
+    .User_ratings .ratings_bars .scale span {
+        width: 10px;
+        height: 26px;
+        position: absolute;
+        left: -2px;
+        top: -7px;
+        cursor: pointer;
+        background: #000;
+    }
+    
+    .seek-bar {
+        margin-left: 100px;
+        padding-left: 100px;
+    }
+</style>
+
+<body>
+
+</body>
+<script type="text/javascript">
+    var scale = function(obj) {
+        this.codeList = obj.codeList;
+        this.dragList = obj.dragList;
+        this.length = obj.dragList.length - 1;
+        this.id = "seekbar" + (+new Date()) + parseInt(Math.random() * 1000);
+    };
+    scale.prototype = {
+        tmpl: function() {
+            var html =
+                '<div id=' + this.id + ' class="seek-bar">' +
+                '<div class="grade_warp">' +
+                '<div class="User_ratings User_grade">' +
+                '<div class="ratings_bars">' +
+                '<span class="bars_10">' + this.dragList[0] + '</span>' +
+                '<div class="scale bar0">' +
+                '<div></div>' +
+                '<span class="btn0"></span>' +
+                '</div>' +
+                '<span class="bars_10">' + this.dragList[this.dragList.length - 1] + '</span>' +
+                '<span class="title0">0</span>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+            return html;
+        },
+        append: function(el) {
+            el = el || "body";
+            this.el = el;
+            $(el).append(this.tmpl());
+            this.init();
+        },
+        divide: function(pos) {
+            var $id = this.$id;
+            var barWid = $id.find(".bar0").width();
+            var perWid = barWid / this.length;
+            var text = this.dragList[Math.ceil(pos / perWid)];
+            var code = this.codeList[Math.ceil(pos / perWid)];
+            return {
+                text: text,
+                code: code
+            };
+        },
+        init: function() {
+            var $id = $("#" + this.id);
+            this.$id = $id;
+            var $btn0 = $id.find(".btn0");
+            var bar0 = $id.find(".bar0")[0];
+
+            var _t = this,
+                g = $(this.el)[0];
+            $btn0.on("mousedown", function(e) {
+                var x = (e || b.event).clientX;
+                var l = this.offsetLeft;
+                var max = bar0.offsetWidth - this.offsetWidth;
+                g.onmousemove = function(e) {
+                    var thisX = (e || window.event).clientX;
+                    var to = Math.min(max, Math.max(-2, l + (thisX - x))); // 极限值
+                    $btn0.css({
+                        left: to
+                    });
+                    var obj = _t.divide(to);
+                    _t.ondrag(obj, to);
+                };
+                g.onmouseup = new Function('this.onmousemove=null');
+            })
+        },
+        ondrag: function(obj, x) {
+            var $id = this.$id;
+            var $step = $id.find(".bar0>div");
+            var $title0 = $id.find(".title0");
+            $step.width(Math.max(0, x))
+            $title0.html(obj.text + '');
+            $title0.attr("data-param-code", obj.code);
+        }
+    }
+    new scale({
+        codeList: [00, 11, 22, 33],
+        dragList: ["无", "轻", "中", "重"]
+    }).append();
+</script>
+
+</html>

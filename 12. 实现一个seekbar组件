@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="./node_modules/jquery/jquery.js"></script>
-    <title>Document</title>
+    <title>项目中的一个seekbar组件</title>
 </head>
 <style>
     .grade_warp {

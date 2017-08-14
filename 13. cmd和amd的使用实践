@@ -1,0 +1,23 @@
+### 插件内部支持amd或者cmd的写法
+- 如下所示
+```
+(function(root, factory) {
+    if (typeof define === 'function' && define.amd) { // 判断是否使用amd
+        define('calendar', ['jquery','components/icss_popup'], factory);// 由于已经设置了baseDir
+    } else if (typeof exports === 'object') {
+        module.exports = factory(require('jquery'));
+    } else {
+        factory(root.jQuery);
+    }
+}(this, function($, icss_popup) {// 和使用reuqire的定义类似, 上面的factory 就是指的这里的function
+  xxxx
+});
+```
+
+### 直接使用reuqire.js的方式
+```
+define(["jquery",""./icss_date"],
+    function($, datemodel){
+      xxxx
+    });
+```

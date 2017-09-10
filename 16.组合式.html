@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var compose = function(f, g) {
+            return function(x) {
+                return f(g(x));
+            }
+        }
+        var add = function(x) {
+            return function(y) {
+                return x + y;
+            }
+        }
+        var add1 = add(1);
+        var mul = function(x) {
+            return function(y) {
+                return x * y;
+            }
+        }
+        var mul5 = mul(5);
+        var aa = compose(add1, mul5)(2);
+        console.log(aa);
+
+        var Left = function(x) {
+            this.__value = x;
+        }
+        Left.of = function(x) {
+            return new Left(x);
+        }
+        Left.prototype.map = function(f) {
+            return Left.of(f(this.__value));
+        }
+
+        console.log(Left.of(3).map(function(x) {
+            x + 2;
+        }));
+    </script>
+</body>
+
+</html>

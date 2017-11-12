@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+
+	function Promise() {
+		var value = null;
+		var callbacks = [];
+		this.then = function(fullfile) {
+			callbacks.push(fullfile);
+			return this;
+		}
+		function resolve(value) {
+			callbacks.forEach(function(callback) {
+				callback(value);
+			})
+		}
+		Array.prototype.slice(arguments).forEach(function(oneFn) {
+			oneFn(resolve);
+		});
+	}
+	Promise.all = function() {
+
+	}
+	</script>
+</body>
+</html>

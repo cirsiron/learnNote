@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+	function compose() {
+		var result;
+		var args = Array.prototype.slice.call(arguments,0);
+		console.log(args);
+		var len = args.length;
+		var count = len - 1;
+		return function fn() {
+			result = args[count].apply(this, arguments);
+			if(count <= 0) {
+				count--;
+				return result;
+			}else {
+				count--;
+				return fn.call(null, result);
+			}
+		}
+	}
+	var double = (x) => x * 2;
+	var inc = (x) => x + 1; 
+	var f1 = compose(double, inc);
+	console.log(f1(2));
+
+	</script>
+</body>
+</html>

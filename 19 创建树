@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+</head>
+<body>
+	<script>
+		function renderMenu(menu, parent) {
+		    var el = $('<a href="' + menu.link  +'">' + menu.name + '</a>');
+		    $(parent).append(el);
+		    if (menu.isleaf) {
+		        return parent;
+		    }
+
+		    var ul = $('<ul/>');
+		    for (var i = 0; i < menu.children.length; ++i) {
+		        var li = $('<li/>');
+		        renderMenu(menu.children[i], li);
+		        ul.append(li);
+		    }
+
+		    $(parent).append(ul);
+		    return parent;
+		}
+
+		function render(json) {
+		    var div = $('<div/>');
+		    return renderMenu(json, div);
+		}
+
+		var json = {
+		    "name": "1级菜单1",
+		    "link": "###",
+		    "isleaf": false,
+		    "level": 0,
+		    "children": [
+		        {
+		            "name": "2级菜单1",
+		            "link": "###",
+		            "isleaf": false,
+		            "level": 1,
+		            "children": [
+		                {
+		                    "name": "3级菜单1",
+		                    "link": "###",
+		                    "isleaf": true,
+		                    "level": 2,
+		                    "children": null
+		                },
+		                {
+		                    "name": "3级菜单2",
+		                    "link": "###",
+		                    "isleaf": true,
+		                    "level": 2,
+		                    "children": null
+		                }
+		            ]
+		        },
+		        {
+		            "name": "2级菜单2",
+		            "link": "###",
+		            "isleaf": false,
+		            "level": 1,
+		            "children": [
+		                {
+		                    "name": "3级菜单3",
+		                    "link": "###",
+		                    "isleaf": true,
+		                    "level": 2,
+		                    "children": null
+		                }
+		            ]
+		        }
+		    ]
+		}
+
+		var menu = render(json);
+		$("body").append(menu)
+	</script>
+</body>
+</html>

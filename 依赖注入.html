@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<script type="text/javascript">
+		var servers = {
+			A: ()=> {
+				console.log("A")
+			},
+			B: ()=> {
+				console.log("B")
+			},
+			C: ()=> {
+				console.log("C")
+			}
+		}
+
+		function Service(A, B) {
+			A();
+			B();
+		}
+
+	getFuncParams = function (func) {
+		console.log(func);
+		var matches = func.toString().match(/^function\s*[^\(]*\(([^\(]*)\)/m);
+		if(matches && matches.length > 1) {
+			return matches[1].replace(/\s+/, "").split(",");
+		}
+		return [];
+	}
+
+	setFuncParams = function (params) {
+		for(var i in params) {
+			params[i] = servers[params[i]];
+		}
+		return params;
+	}
+
+	// 注射器 
+	function Activitor(func, scope) { 
+	   return () => {
+	       func.apply(scope || {}, setFuncParams(getFuncParams(func)));
+	   } 
+	} 
+	// 实例化Service并调用方法 
+	var service = Activitor(Service); 
+	service();//1 2
+
+
+
+	/**
+	 * Constructor DependencyInjector
+	 * @param {Object} - object with dependencies
+	 */
+	var DI = function (dependency) {
+	  this.dependency = dependency;
+	};
+
+	// Should return new function with resolved dependencies
+	DI.prototype.inject = function (func) {
+
+	  var deps = /^[^(]+\(([^)]+)/.exec(func.toString());
+	  var _t = this;
+	 //  构建参数绑定数组
+	  var par = deps[1].split(",").map(function (dep) {
+	      return _t.dependency[dep];
+	    });
+	  var params = deps ?  par : [];
+	  console.log(params)
+	  // 通过apply将依赖参数传入函数
+	  return function () {
+	    return func.apply(this, params);
+	  };
+	}
+	// 要注入的依赖
+	var deps = {
+	  'dep1': function () {return 'this is dep1';},
+	  'dep2': function () {return 'this is dep2';},
+	  'dep3': function () {return 'this is dep3';},
+	  'dep4': function () {return 'this is dep4';}
+	};
+
+	var d = new DI(deps);
+	var myFunc = d.inject(function (dep3,dep1,dep2) {
+	  return [dep1(), dep2(), dep3()].join(' -> ');
+	});
+	console.log(myFunc());
+
+
+
+	var deps = {
+
+	}
+
+	var DI = function(deps) {
+		this.deps = deps;
+	};
+
+	DI.prototype.inject = function(func) {
+		var getFuncParams = function() {}
+		return ()=> {
+			func.apply(this, getFuncParams());
+		}
+	}
+
+
+	</script>
+</body>
+</html>

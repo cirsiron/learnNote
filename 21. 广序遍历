@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const data = [{
+            value: "zhejiang",
+            id: 1,
+            index: 1,
+            children: [{
+                value: "hanzhou",
+                pid: 1,
+                id: 2,
+                index: 2,
+                children: [{
+                    value: "xihu",
+                    pid: 2,
+                    id: 3,
+                    index: 3,
+                    children: [{
+                        pid: 3,
+                        id: 4,
+                        index: 4,
+                        value: 'baidi',
+                        label: 'baidi',
+                    }
+                    ]
+                }]
+            }]
+        }, {
+            value: "beijing",
+            id: 0,
+            index: 0,
+        }]
+
+/***假设一开始就能定位,知道西湖pid***/
+//广度遍历整个数据,递归查找pid
+function findNode(data, pid, parentData) {
+    const travelWidely = (roots) => {
+        const queue = [...roots];
+        while (queue.length) {
+            const node = queue.shift();
+            //打印被遍历的一个节点
+            if (node.id === pid) {
+                //记录到
+                parentData.push(node)
+                return node;
+            }
+            if (node === undefined) return;
+            if (node.children && node.children.length) {
+                queue.push(...node.children)
+            }
+        }
+    }
+    return travelWidely(data)
+}
+function findAllParent(data, pid, parentData) {
+    let thisParent = findNode(data, pid, parentData)
+    if (thisParent.hasOwnProperty("pid")) {
+        findAllParent(data, thisParent.pid, parentData)
+    }
+}
+
+//主程序开始
+//从西湖开始找父亲
+let parentData = [];
+findAllParent(data, 3, parentData)
+console.log(parentData)
+    </script>
+</body>
+
+</html>

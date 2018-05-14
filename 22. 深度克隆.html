@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<script>
+
+    var arrs = [];
+
+    function haha(){
+       var data = [
+           {
+               name: '中国',
+               children: [
+                   {
+                       name: '教第三节课',
+
+                   },
+                   {
+                       name: '教呼呼',
+                       children: [
+                           {
+                               name: '大一',
+                               children: [
+                                   {
+                                       name: '课程1',
+                                       children: [
+                                           {
+                                               name: '1231'
+                                           },
+                                           {
+                                               name: '121'
+                                           }
+                                       ]
+                                   },
+                                   {
+                                       name: '课程2',
+                                       children: [
+                                           {
+                                               name: '1232'
+                                           },
+                                           {
+                                               name: '122'
+                                           }
+                                       ]
+                                   },
+                                   {
+                                       name: '课程3',
+                                       children: [
+                                           {
+                                               name: '1233'
+                                           },
+                                           {
+                                               name: '123'
+                                           }
+                                       ]
+                                   },
+
+                               ]
+                           }
+                       ]
+                   },
+                   {
+                       name: '活动',
+                       children:null
+                   }
+               ]
+           }
+       ];
+        getArray(data);
+        console.log(data);
+    }
+    var b = [];
+    function getArray(data){
+        for (var i in data) {
+            if (data[i].name == name) {
+                break;
+            } else {
+                getArray(data[i].children, name);
+            }
+        }
+    }
+
+   function getType(obj){
+       //tostring会返回对应不同的标签的构造函数
+       var toString = Object.prototype.toString;
+       var map = {
+          '[object Boolean]'  : 'boolean', 
+          '[object Number]'   : 'number', 
+          '[object String]'   : 'string', 
+          '[object Function]' : 'function', 
+          '[object Array]'    : 'array', 
+          '[object Date]'     : 'date', 
+          '[object RegExp]'   : 'regExp', 
+          '[object Undefined]': 'undefined',
+          '[object Null]'     : 'null', 
+          '[object Object]'   : 'object'
+      };
+      if(obj instanceof Element) {
+           return 'element';
+      }
+      return map[toString.call(obj)];
+   }
+   
+   function deepClone(data){
+       var type = getType(data);
+       var obj;
+       if(type === 'array'){
+           obj = [];
+       } else if(type === 'object'){
+           obj = {};
+       } else {
+           //不再具有下一层次
+           return data;
+       }
+       if(type === 'array'){
+           for(var i = 0, len = data.length; i < len; i++){
+               obj.push(deepClone(data[i]));
+           }
+       } else if(type === 'object'){
+           for(var key in data){
+               obj[key] = deepClone(data[key]);
+           }
+       }
+       return obj;
+   }
+</script>
+</body>
+</html>

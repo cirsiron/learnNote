@@ -40,3 +40,33 @@ function applyMiddleware(middlewares) {
 }
 
 applyMiddleware(dispatchAndLog) 
+
+- 例如redux-chunk的用法
+
+```js
+//源码
+function createThunkMiddleware(extraArgument) {
+  return ({ dispatch, getState }) => next => action => {
+    if (typeof action === 'function') {//如果是函数, 就是异步执行 , 返回的是一个函数,在函数执行的过程中在执行diaptch对应的action, 例如下文的addIfOdd()
+      return action(dispatch, getState, extraArgument);
+    }
+
+    return next(action);// 如果正常的dispatch 就直接执行action
+  };
+}
+```
+
+```js
+// 使用方法
+
+function addIfOdd() {
+    return (dispatch, getState) => {
+        const currentValue = getState();
+        if (currentValue % 2 == 0) {
+            return false;
+        }
+        //分发一个任务
+        dispatch(add())
+    }
+}
+```

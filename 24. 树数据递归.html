@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script type="text/javascript">
+		
+		var a = [
+			{
+				name: 1,
+				children: [
+					{
+						name: 11,
+						children: false
+					},
+					{
+						name: 12,
+						children: [{
+							name : 13,
+							children: false
+						}]
+					}
+				]
+			},
+			{
+				name: "2",
+				children: [
+					{
+						name: 22,
+						children: [{
+							name: 222,
+							children: false
+						}]
+					}
+				]
+			},
+			{
+				name: "3",
+				children: [
+					{
+						name: 33,
+						children: false
+					}
+				]
+			}
+		];
+		function getName(name, arr) {
+			let aaa = null;
+			function getItemByName(name, o) {
+				for(var i = 0; i < o.length ; i++) {
+					let item = o[i];
+					if(item.name == name) {
+						aaa = item;
+					}else if(item.children) {
+						getItemByName(name, item.children);
+					}
+				}
+			};
+			
+			getItemByName(name, a);
+			return aaa;
+		}
+		
+		console.log(getName(222, a))
+	</script>
+</body>
+</html>

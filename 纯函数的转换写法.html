@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+    function fZero(x) {
+      console.log(x)
+      // console 有可能会被改变
+      console.log("这不是纯函数！！");
+      return 0;
+    }
+    
+    function Effect(f) {
+      return {
+        map(g) {
+          return Effect((x) => g(f(x)))
+          // Effect(()=> fZero() + 1 )
+        },
+        run(x) {
+          return f(x);
+        }
+      }
+    }
+    const zero = Effect(fZero);
+    const increment = x => x + 1;
+    const res = zero.map(increment);
+    res.run(1);
+  </script>
+</body>
+</html>

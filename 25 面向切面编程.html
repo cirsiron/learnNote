@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        Function.prototype.before = function(fn) {
+            const _that = this;
+            return function() {
+                fn.apply(_that, arguments);
+                return _that.apply(_that, arguments);
+            }
+        }
+
+        Function.prototype.after = function(fn) {
+            const _self = this;
+            return function() {
+                const ret = _self.apply(_self, arguments);
+                fn.apply(_self, arguments);
+                return ret;
+            }
+        }
+
+        function de() {
+            console.log('mid')
+        }
+        de = de.before(function() {
+            console.log('before')
+        }).after(function() {
+            console.log('after')
+        })
+        de() // before mid after
+    </script>
+</body>
+</html>

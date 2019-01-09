@@ -6,73 +6,75 @@
 </head>
 <body>
 	<script>
-	//js流程经典控制，实现一个lazyMan
-(function(window){
-    //定义一个构造函数
-    function _lazyMan(name) {
-      var _t = this;
-      this.tasks = [];//存储事件方法
-      var fn = (function() {
-        return function() {
-          setTimeout(function(){
-          	console.log("this is " + name);
-          	_t.next();
-          }, 0);
-        }  
-      })();
-      this.tasks.push(fn);
-        //这里需让next自己执行一次显示name
-        _t.next();
+
+class LazyMan {
+    constructor(name) {
+        this.name = name;
+        this.tasks = []; //执任务执行队列
+        this._init(); //处理化执行
+        this._res = null;
     }
-    _lazyMan.prototype.next = function() {
-      var fn = this.tasks.shift();
-      fn && fn();
+    _init() {
+        this._pushTask((res) => {
+            console.log('name ' + this.name)
+            this._next(res);
+        });
+        this._next();
     }
-    _lazyMan.prototype.eat = function(food) {
-          var _t = this;
-        var fn = (function() {
-            return function() {
-                console.log("i like eat" + food);
-                _t.next();
-            }
-        })();
-        this.tasks.push(fn);
+	// 添加任务
+    _pushTask(...args) {
+        this.tasks.push(this._createTask(...args))
+    }
+	// 给头部添加任务
+    _headTask(...args) {
+        this.tasks.unshift(this._createTask(...args))
+    }
+	// 任务创建
+    _createTask(f, timeout, immed) {
+        return () => {
+            immed && immed();
+            timeout = timeout || 0;
+            setTimeout(() => {
+                this._res = f();
+            }, timeout)
+        }
+    }
+	// 执行列表中的下一个任务
+    _next() {
+        const fn = this.tasks.shift();
+        fn && fn(this._res);
+    }
+    eat() {
+        this._pushTask(() => {
+            console.log('eat')  
+            this._next();
+        })
         return this;
     }
-    _lazyMan.prototype.sleep = function(sec) {
-        var _t = this;
-        var fn = (function() {
-            return function() {
-                setTimeout(function() {
-                    console.log("this is " + sec);
-                    _t.next();
-                }, sec * 1000);
-            }
-        })();
-        this.tasks.push(fn);
+    sleep(timeout) {
+        this._pushTask(() => {
+            this._next();
+        }, timeout, () => {
+            console.log('sleep 5000')
+        })
         return this;
     }
-    _lazyMan.prototype.firstSleep = function(sec) {
-        var _t = this;
-        var fn = (function() {
-            return function() {
-                setTimeout(function() {
-                    console.log("fisrt" + sec)
-                    _t.next();
-                }, sec * 1000);
-            }
-        })();
-        this.tasks.unshift(fn);
+    headSleep(timeout) {
+        this._headTask(() => {
+            console.log('睡好了')
+            this._next();
+        }, timeout, () => {
+            console.log('开始sleep 1s')
+        })
         return this;
     }
 
-    function Lazyman(name) {
-        return new _lazyMan(name);
-    }
+}
 
-    Lazyman("jack").sleep(3).eat("food1").eat("food2").eat("food3").firstSleep(2);
-  
-})(window,undefined);
+const la = new LazyMan('jack')
+la.sleep(1000).eat().headSleep(1000);
+
+
 
 	</script>
 </body>

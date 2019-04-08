@@ -5,27 +5,74 @@
 	<title>Document</title>
 </head>
 <body>
-	<script>
+<script>
 
-	function Promise() {
-		var value = null;
-		var callbacks = [];
-		this.then = function(fullfile) {
-			callbacks.push(fullfile);
-			return this;
-		}
-		function resolve(value) {
-			callbacks.forEach(function(callback) {
-				callback(value);
-			})
-		}
-		Array.prototype.slice(arguments).forEach(function(oneFn) {
-			oneFn(resolve);
-		});
-	}
-	Promise.all = function() {
+    const PENDING =  '0';
+    const RESOLVE = '1';
+    const REJECT = '2';
 
-	}
+    function MyPromise(con) {
+        this.value = null;
+        this.reason = null;
+        this.status = PENDING;
+        this.onResolveArr = [];
+        this.onRejectArr = [];
+
+        const that = this;
+        function resolve(value) {
+            if(that.status === PENDING) {
+                that.value = value;
+                that.status = RESOLVE;
+                that.onResolveArr.forEach((fn) => {
+                    fn(that.value);
+                })
+            }
+        }
+        function reject(reason) {
+            if(that.status = PENDING) {
+                that.reason = reason;
+                that.status = REJECT;
+                that.onRejectArr.forEach((fn) => {
+                    fn(that.reason);
+                })
+            }
+        }
+        try{
+            con(resolve, reject);
+        } catch(e) {
+            reject(e);
+        }
+    }
+    
+    MyPromise.prototype.then = function(onResolve, onReject) {
+        const that = this;
+        switch(this.status) {
+            case PENDING:
+                that.onResolveArr.push(onResolve)
+                that.onRejectArr.push(onReject)
+                break;
+            case RESOLVE:
+                setTimeout(function() {
+                    try {
+                        onResolve(that.value);
+                    } catch(e) {
+                        onReject(e);
+                    }
+                })
+                break;
+            case REJECT:
+                setTimeout(function() {
+                    try {
+                        onReject(that.reason);
+                    } catch(e) {
+                        onReject(e);
+                    }
+                })
+                break;
+            default:
+                break;
+        }
+    }
 	</script>
 </body>
 </html>

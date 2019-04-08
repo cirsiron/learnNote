@@ -29,7 +29,7 @@
             }
         }
         function reject(reason) {
-            if(that.status = PENDING) {
+            if(that.status === PENDING) {
                 that.reason = reason;
                 that.status = REJECT;
                 that.onRejectArr.forEach((fn) => {
